@@ -1,7 +1,8 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-
+header("Content-Type: application/json; charset=UTF-8");   
+// The config folder in deployment will be like this:
+//include_once '../../microverse.abi.api.config/database.php';
 include_once '../config/database.php';
 include_once '../class/menu.php';
 

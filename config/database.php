@@ -1,9 +1,13 @@
+<!--                      REMEMBER !!!!
+        This file must be place outside of the public folder.
+    Create a separated folder called config and place it in there.
+-->
 <?php 
     class Database {
         private $host = "127.0.0.1";
         private $database_name = "waldwuai_Menu";
         private $username = "waldwuai_root";
-        private $password = "123456mysql";
+        private $password = "type your password here";
 
         public $conn;
 
