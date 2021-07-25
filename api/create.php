@@ -19,9 +19,8 @@
     $item->type = $data->type;
     $item->price = $data->price;
     $item->ingredients = $data->ingredients;
-    $item->description = $data->description;
     $item->created = date('Y-m-d H:i:s');
-    
+    $item->image = $data->image;
     if($item->createMenu()){
         echo 'Dish created successfully.';
     } else{

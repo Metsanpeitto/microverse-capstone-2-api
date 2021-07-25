@@ -25,9 +25,9 @@
             "type" => $item->type,
             "price" => $item->price,
             "ingredients" => $item->ingredients,
-            "description" => $item->description,
+            "image" => $item->image,
             "created" => $item->created
-        );
+);
       
         http_response_code(200);
         echo json_encode($emp_arr);

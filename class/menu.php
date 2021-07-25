@@ -16,6 +16,7 @@ class Menu
     public $ingredients;
     public $description;
     public $created;
+    public $image;
 
     // Db connection
     public function __construct($db)
@@ -26,59 +27,32 @@ class Menu
     // GET ALL
     public function getMenu()
     {
-        $sqlQuery = "SELECT id, name, type, price, ingredients, description, created FROM " . $this->db_table . "";
+         $sqlQuery = "SELECT
+                        id, 
+                        name, 
+                        type,
+                        price,
+                        ingredients,                      
+                        image,
+                        created
+                      FROM
+                        " . $this->db_table . "             
+                    LIMIT 20";
         $stmt = $this->conn->prepare($sqlQuery);
         $stmt->execute();
         return $stmt;
     }
 
-    // CREATE
-    public function createMenu()
-    {
-        $sqlQuery = "INSERT INTO
-                        " . $this->db_table . "
-                    SET
-                        name = :name, 
-                        type = :type, 
-                        price = :price, 
-                        ingredients = :ingredients,
-                        description = :description, 
-                        created = :created";
-
-        $stmt = $this->conn->prepare($sqlQuery);
-
-        // sanitize
-        $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->type = htmlspecialchars(strip_tags($this->type));
-        $this->price = htmlspecialchars(strip_tags($this->price));
-        $this->ingredients = htmlspecialchars(strip_tags($this->ingredients));
-        $this->description = htmlspecialchars(strip_tags($this->description));
-        $this->created = htmlspecialchars(strip_tags($this->created));
-
-        // bind data
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":type", $this->type);
-        $stmt->bindParam(":price", $this->price);
-        $stmt->bindParam(":ingredients", $this->ingredients);
-        $stmt->bindParam(":description", $this->description);
-        $stmt->bindParam(":created", $this->created);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
-    }
-
-    // READ single
+        // READ single
     public function getSingleMenu()
     {
         $sqlQuery = "SELECT
                         id, 
                         name, 
-                       type,
-                       price,
-                       ingredients,
-                       description, 
+                        type,
+                        price,
+                        ingredients,                      
+                        image,
                         created
                       FROM
                         " . $this->db_table . "
@@ -95,11 +69,51 @@ class Menu
         $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $this->name = $dataRow['name'];
-        $this->email = $dataRow['email'];
-        $this->age = $dataRow['age'];
-        $this->designation = $dataRow['designation'];
+        $this->type = $dataRow['type'];
+        $this->price = $dataRow['price'];
+        $this->ingredients = $dataRow['ingredients'];
+        $this->image = $dataRow['image'];
         $this->created = $dataRow['created'];
     }
+
+    // CREATE
+    public function createMenu()
+    {
+        $sqlQuery = "INSERT INTO
+                        " . $this->db_table . "
+                    SET
+                        name = :name, 
+                        type = :type, 
+                        price = :price, 
+                        ingredients = :ingredients,
+                        created = :created,
+                        image = :image";
+
+        $stmt = $this->conn->prepare($sqlQuery);
+
+        // sanitize
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->type = htmlspecialchars(strip_tags($this->type));
+        $this->price = htmlspecialchars(strip_tags($this->price));
+        $this->ingredients = htmlspecialchars(strip_tags($this->ingredients));
+        $this->created = htmlspecialchars(strip_tags($this->created));
+        $this->image = htmlspecialchars(strip_tags($this->image));
+
+        // bind data
+        $stmt->bindParam(":name", $this->name);
+        $stmt->bindParam(":type", $this->type);
+        $stmt->bindParam(":price", $this->price);
+        $stmt->bindParam(":ingredients", $this->ingredients);
+        $stmt->bindParam(":created", $this->created);
+        $stmt->bindParam(":image", $this->image);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+
 
     // UPDATE
     public function updateMenu()
@@ -108,29 +122,34 @@ class Menu
                         " . $this->db_table . "
                     SET
                         name = :name, 
-                        email = :email, 
-                        age = :age, 
-                        designation = :designation, 
-                        created = :created
+                        type = :type, 
+                        price = :price, 
+                        ingredients = :ingredients, 
+                        image = :image,
+                        created = :created                     
                     WHERE 
                         id = :id";
 
         $stmt = $this->conn->prepare($sqlQuery);
 
-        $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->age = htmlspecialchars(strip_tags($this->age));
-        $this->designation = htmlspecialchars(strip_tags($this->designation));
-        $this->created = htmlspecialchars(strip_tags($this->created));
         $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->type = htmlspecialchars(strip_tags($this->type));
+        $this->price = htmlspecialchars(strip_tags($this->price));
+        $this->ingredients = htmlspecialchars(strip_tags($this->ingredients));
+        $this->image = htmlspecialchars(strip_tags($this->image));
+        $this->created = htmlspecialchars(strip_tags($this->created));
+
 
         // bind data
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":age", $this->age);
-        $stmt->bindParam(":designation", $this->designation);
-        $stmt->bindParam(":created", $this->created);
         $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(":name", $this->name);
+        $stmt->bindParam(":type", $this->type);
+        $stmt->bindParam(":price", $this->price);
+        $stmt->bindParam(":ingredients", $this->ingredients);
+        $stmt->bindParam(":image", $this->image);
+        $stmt->bindParam(":created", $this->created);
+
 
         if ($stmt->execute()) {
             return true;
