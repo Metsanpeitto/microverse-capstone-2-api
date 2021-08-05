@@ -1,4 +1,4 @@
-# microverse-capstone-2-api
+# Microverse-capstone-2-api
 
 ---
 
